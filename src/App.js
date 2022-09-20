@@ -4,16 +4,31 @@ import { MdDelete, MdModeEdit, MdAdd } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const getLocalItems = () =>{
+  let list = localStorage.getItem('list');
+  if(list){
+    return JSON.parse(localStorage.getItem('list'));
+  }
+  else{
+    return [];
+  }
+}
+
+
 const App = () => {
 
   const [input, setInput] = useState('');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(getLocalItems());
   const [icon, setIcon] = useState(false);
   const [editId, setEditId] = useState(null);
 
+  useEffect(()=>{
+    localStorage.setItem('list', JSON.stringify(items))
+  },[items])
+
   const getArray = () => {
     if (!input) {
-      toast.warn("KUCHH LIKH BHI DIJIYE", {
+      toast.warn("KUCHH LIKH DE CHAMAN", {
         autoClose: 2000,
       });
     }
